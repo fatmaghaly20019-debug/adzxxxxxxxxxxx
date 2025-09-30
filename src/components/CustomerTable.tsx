@@ -274,26 +274,44 @@ export const CustomerTable = ({ onAddCustomer, onAddBulkCustomers, onBulkEdit, o
     return result;
   };
 
-  const formatRenewal = (charging: string | null, renewal: string | null, provider: string | null) => {
+  const getRenewalInfo = (charging: string | null, renewal: string | null, provider: string | null) => {
     const existing = parseDateAssume2025(renewal);
-    if (existing) return existing.toLocaleDateString('ar-EG');
-    
-    const base = parseDateAssume2025(charging);
-    if (!base) return 'غير محدد';
-    
-    const result = new Date(base);
-    // Etisalat: 28 days (renewal on day 29)
-    // Orange: 30 days (renewal on day 31)
-    // WE: 30 days (renewal on day 31)
-    if (provider === 'etisalat') {
-      result.setUTCDate(result.getUTCDate() + 28);
+    let renewalDate: Date;
+
+    if (existing) {
+      renewalDate = existing;
     } else {
-      result.setUTCDate(result.getUTCDate() + 30);
+      const base = parseDateAssume2025(charging);
+      if (!base) return { date: 'غير محدد', status: 'none' };
+
+      renewalDate = new Date(base);
+      if (provider === 'etisalat') {
+        renewalDate.setUTCDate(renewalDate.getUTCDate() + 28);
+      } else {
+        renewalDate.setUTCDate(renewalDate.getUTCDate() + 30);
+      }
     }
-    
-    const d = result;
-    if (!d) return 'غير محدد';
-    return d.toLocaleDateString('ar-EG');
+
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const renewalMidnight = new Date(renewalDate);
+    renewalMidnight.setHours(0, 0, 0, 0);
+
+    const diffTime = renewalMidnight.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let status = 'normal';
+    if (diffDays < 0) {
+      status = 'overdue';
+    } else if (diffDays <= 2) {
+      status = 'warning';
+    }
+
+    return {
+      date: renewalDate.toLocaleDateString('ar-EG'),
+      status,
+      daysRemaining: diffDays
+    };
   };
 
   if (loading) {
@@ -432,10 +450,27 @@ export const CustomerTable = ({ onAddCustomer, onAddBulkCustomers, onBulkEdit, o
                   )}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    {formatRenewal(customer.charging_date, null, customer.provider)}
-                  </div>
+                  {(() => {
+                    const renewalInfo = getRenewalInfo(customer.charging_date, null, customer.provider);
+                    return (
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                          {renewalInfo.date}
+                        </div>
+                        {renewalInfo.status === 'warning' && (
+                          <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300 text-xs">
+                            متبقي {renewalInfo.daysRemaining} {renewalInfo.daysRemaining === 1 ? 'يوم' : 'يومين'}
+                          </Badge>
+                        )}
+                        {renewalInfo.status === 'overdue' && (
+                          <Badge variant="destructive" className="text-xs">
+                            متاح التجديد
+                          </Badge>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </TableCell>
                 <TableCell>{getPaymentStatusBadge(customer.payment_status)}</TableCell>
                 <TableCell>
