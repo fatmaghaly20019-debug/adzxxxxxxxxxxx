@@ -123,9 +123,9 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
 
       <div className="flex-1 flex items-center justify-center p-4 relative z-10">
         <div className="w-full max-w-md">
-          <Card className="shadow-2xl animate-scale-in transition-all duration-500 hover:shadow-3xl bg-card/95 backdrop-blur-xl border-2 border-blue-500/20 relative overflow-hidden">
+          <Card className="shadow-2xl animate-scale-in transition-all duration-500 hover:shadow-3xl bg-card/50 backdrop-blur-md border-2 border-white/20 relative overflow-hidden">
             {/* Card decorative overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-green-500/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-green-500/10"></div>
             <div className="relative z-10">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 p-3 bg-gradient-to-r from-blue-600 to-green-600 rounded-full w-16 h-16 flex items-center justify-center shadow-lg animate-pulse">
