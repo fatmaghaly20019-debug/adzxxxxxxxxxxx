@@ -114,10 +114,19 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col content-overlay">
-      <div className="flex-1 flex items-center justify-center p-4">
+    <div className="min-h-screen flex flex-col content-overlay relative">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center p-4 relative z-10">
         <div className="w-full max-w-md">
-          <Card className="shadow-2xl animate-scale-in transition-all duration-500 hover:shadow-3xl bg-card/90 backdrop-blur-md border-border/50">
+          <Card className="shadow-2xl animate-scale-in transition-all duration-500 hover:shadow-3xl bg-card/95 backdrop-blur-xl border-2 border-blue-500/20 relative overflow-hidden">
+            {/* Card decorative overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-green-500/5"></div>
+            <div className="relative z-10">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 p-3 bg-gradient-to-r from-blue-600 to-green-600 rounded-full w-16 h-16 flex items-center justify-center shadow-lg animate-pulse">
               <Network className="h-8 w-8 text-white" />
@@ -223,6 +232,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
               </Button>
             </form>
           </CardContent>
+            </div>
         </Card>
         </div>
       </div>

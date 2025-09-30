@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global background with geometric patterns */
+/* Global background with beautiful image */
 body {
   position: relative;
   min-height: 100vh;
@@ -17,7 +17,11 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -2;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 body::after {
@@ -28,62 +32,13 @@ body::after {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 50px,
-      rgba(59, 130, 246, 0.03) 50px,
-      rgba(59, 130, 246, 0.03) 51px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 50px,
-      rgba(168, 85, 247, 0.03) 50px,
-      rgba(168, 85, 247, 0.03) 51px
-    ),
-    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 30%),
-    radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 30%),
-    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 40%);
-  animation: backgroundFloat 20s ease-in-out infinite;
-}
-
-/* Floating dots pattern */
-.content-overlay::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(circle, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
-  background-size: 50px 50px, 80px 80px;
-  background-position: 0 0, 25px 25px;
-  animation: dotsMove 30s linear infinite;
-}
-
-@keyframes backgroundFloat {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes dotsMove {
-  0% {
-    background-position: 0 0, 25px 25px;
-  }
-  100% {
-    background-position: 50px 50px, 75px 75px;
-  }
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.85) 0%,
+    rgba(30, 41, 59, 0.8) 50%,
+    rgba(51, 65, 85, 0.85) 100%
+  );
+  backdrop-filter: blur(2px);
 }
 
 /* Overlay for better readability */
