@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global animated gradient background */
+/* Global background with geometric patterns */
 body {
   position: relative;
   min-height: 100vh;
@@ -16,17 +16,8 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  background: linear-gradient(
-    135deg,
-    #0f172a 0%,
-    #1e293b 25%,
-    #334155 50%,
-    #1e293b 75%,
-    #0f172a 100%
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  z-index: -2;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
 }
 
 body::after {
@@ -38,27 +29,60 @@ body::after {
   height: 100%;
   z-index: -1;
   background-image:
-    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 50%);
-  animation: pulseGlow 8s ease-in-out infinite;
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 50px,
+      rgba(59, 130, 246, 0.03) 50px,
+      rgba(59, 130, 246, 0.03) 51px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 50px,
+      rgba(168, 85, 247, 0.03) 50px,
+      rgba(168, 85, 247, 0.03) 51px
+    ),
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 40%);
+  animation: backgroundFloat 20s ease-in-out infinite;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* Floating dots pattern */
+.content-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(circle, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px, 80px 80px;
+  background-position: 0 0, 25px 25px;
+  animation: dotsMove 30s linear infinite;
 }
 
-@keyframes pulseGlow {
+@keyframes backgroundFloat {
   0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
     opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes dotsMove {
+  0% {
+    background-position: 0 0, 25px 25px;
+  }
+  100% {
+    background-position: 50px 50px, 75px 75px;
   }
 }
 
